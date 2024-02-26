@@ -1,29 +1,6 @@
 
-<!-- Descrizione
-
-✅Partiamo da questo array di hotel. https://www.codepile.net/pile/OEWY7Q1G
-
-✅Stampare tutti i nostri hotel con tutti i dati disponibili.
-
-Iniziate in modo graduale.
-
-✅Prima stampate in pagina i dati, senza preoccuparvi dello stile.
-
-✅Dopo aggiungete Bootstrap e mostrate le informazioni con una tabella. -->
-
-<!-- 
-Bonus:
-
-✅1 - Aggiungere un form ad inizio pagina che tramite una richiesta GET permetta di filtrare gli hotel che hanno un parcheggio.
-
-2 - Aggiungere un secondo campo al form che permetta di filtrare gli hotel per voto (es. inserisco 3 ed ottengo tutti gli hotel che hanno un voto di tre stelle o superiore)
-
-
-NOTA: deve essere possibile utilizzare entrambi i filtri contemporaneamente (es. ottenere una lista con hotel che dispongono di parcheggio e che hanno un voto di tre stelle o superiore)
-Se non viene specificato nessun filtro, visualizzare come in precedenza tutti gli hotel. -->
-
 <?php
-
+$parcheggio = isset($_GET['parcheggio']);
 
 $hotels = [
 
@@ -69,12 +46,18 @@ $hotels = [
     ],
 
 ];
+$hotels_filtrati = [];
+foreach ($hotels as $element) {
+    if ($parcheggio && !$element['parking']) {
+        continue; 
+    }
+    $hotels_filtrati[] = $element;
+}
 
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -82,37 +65,15 @@ $hotels = [
     <link rel="stylesheet" href="style.css">
     <title>PHP-HOTEL</title>
 </head>
-
-
 <body>
 
-
-    <div class="container pt-4 ">
-        <form class="d-flex" action="ricerca.php"  method="get">
-            <div class="col-10">
-                <div class="mb-3">
-                    <label for="pargheggio" class="form-label">Cerca qui il tuo hotel</label>
-                    <input
-                        type="text"
-                        name="pargheggio"
-                        id="pargheggio"
-                        class="form-control"
-                        
-                    />
-                    <button type="submit" class="btn btn-primary mt-3 ">Cerca</button>
-                </div>
-            </div>
-        </form>
-        
-    </div>
-
-
-    <div class="container ">
+<div class="container ">
+    <h1 class="pb-3">hotel disponibili con parcheggio</h1>
         <div class="d-flex justify-content-center flex-wrap gap-10 ">
 
             <!-- ciclo per ogni singolo hotels -->
-            <?php foreach ($hotels as $element) : ?>
-
+            <?php foreach ($hotels_filtrati as $element) : ?>
+                <?php if ($element['parking']) : ?>
                 <div class="card" style="width: 18rem;">
                 <!-- informazioni presi tramite element -->
                     <img src="<?= $element['img'] ?> " class="card-img-top" alt="..." height="100%">
@@ -125,18 +86,16 @@ $hotels = [
                         </div>
                     </div>
                 </div>
-
+                <?php endif; ?>
             <?php endforeach; ?>
 
         </div>
     </div>
+    
 
 
 
 
-
-
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.min.js' integrity='sha512-ykZ1QQr0Jy/4ZkvKuqWn4iF3lqPZyij9iRv6sGqLRdTPkY69YX6+7wvVGmsdBbiIfN/8OdsI7HABjvEok6ZopQ==' crossorigin='anonymous'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.min.js' integrity='sha512-ykZ1QQr0Jy/4ZkvKuqWn4iF3lqPZyij9iRv6sGqLRdTPkY69YX6+7wvVGmsdBbiIfN/8OdsI7HABjvEok6ZopQ==' crossorigin='anonymous'></script>
 </body>
-
 </html>
