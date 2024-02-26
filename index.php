@@ -2,6 +2,7 @@
 $hotels = [
 
     [
+        'img' => '../'
         'name' => 'Hotel Belvedere',
         'description' => 'Hotel Belvedere Descrizione',
         'parking' => true,
